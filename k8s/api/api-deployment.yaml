@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  strategy:
+   type: RollingUpdate
+  replicas: 4
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      name: api-pod
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api-container
+          image: vinay0409/nagp-2025-api:1.0.0
+          envFrom:
+            - configMapRef:
+                name: db-config
+            - secretRef:
+                name: db-secret
